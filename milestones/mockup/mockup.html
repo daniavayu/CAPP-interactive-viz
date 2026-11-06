@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Life at X — mockup</title>
+<style>
+  :root{
+    --surface:#fcfcfb; --panel:#ffffff; --line:#e6e5e1; --grid:#eeede9;
+    --ink:#0b0b0b; --ink2:#52514e; --ink3:#8a8984;
+    --s1:#2a78d6; --s2:#eb6834; --ghost:#b9b8b2;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--surface);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 24px 60px}
+  header h1{font-size:30px;margin:0 0 6px;letter-spacing:-.02em}
+  header p{margin:0;color:var(--ink2);max-width:680px}
+  .badge{display:inline-block;font-size:12px;border:1px solid var(--line);border-radius:99px;padding:2px 10px;color:var(--ink2);margin-bottom:12px}
+
+  .controls{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-end;margin:26px 0 22px;padding:16px 18px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+  .ctl label{display:block;font-size:12px;color:var(--ink2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+  select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;min-width:170px}
+  .seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{font:inherit;border:0;background:#fff;padding:8px 16px;cursor:pointer;color:var(--ink2);border-right:1px solid var(--line)}
+  .seg button:last-child{border-right:0}
+  .seg button.on{background:var(--ink);color:#fff}
+  input[type=range]{width:260px;accent-color:var(--s1)}
+  .yearval{font-weight:600;font-size:18px;margin-left:10px;font-variant-numeric:tabular-nums}
+
+  .grid{display:grid;grid-template-columns:340px 1fr;gap:22px}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);margin:0 0 12px;font-weight:600}
+
+  .persona .headline{font-size:22px;line-height:1.25;margin:0 0 4px;letter-spacing:-.01em}
+  .persona .sub{color:var(--ink2);font-size:13px;margin-bottom:14px}
+  .dots{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin:10px 0 8px}
+  .dot{aspect-ratio:1;border-radius:50%;background:var(--grid)}
+  .dot.on{background:var(--s1)}
+  .dotcap{font-size:13px;color:var(--ink2)}
+  .dotcap b{color:var(--ink);font-size:20px}
+  .story{margin:16px 0 0;padding:0;list-style:none;font-size:14px;color:var(--ink2)}
+  .story li{padding:7px 0;border-top:1px solid var(--line)}
+
+  .row{display:grid;grid-template-columns:150px 1fr 56px;align-items:center;gap:12px;padding:7px 8px;border-radius:8px;cursor:pointer}
+  .row:hover{background:#f5f4f1}
+  .row.sel{background:#eef4fc}
+  .row .name{font-size:14px}
+  .track{position:relative;height:12px;background:var(--grid);border-radius:6px}
+  .fill{position:absolute;left:0;top:0;bottom:0;background:var(--s1);border-radius:0 4px 4px 0;transition:width .35s}
+  .ghost{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--ink2);border-radius:2px;transition:left .35s}
+  .val{font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+  .group{font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin:12px 8px 2px}
+  .legend{display:flex;gap:18px;font-size:12px;color:var(--ink2);margin:0 8px 6px}
+  .legend i{display:inline-block;vertical-align:middle;margin-right:6px}
+  .lg-bar{width:14px;height:8px;border-radius:2px;background:var(--s1)}
+  .lg-tick{width:3px;height:14px;background:var(--ink2)}
+
+  .trend{margin-top:22px}
+  .trend svg{width:100%;height:auto;display:block}
+  .note{margin-top:22px;font-size:12px;color:var(--ink3)}
+  #tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;padding:6px 9px;border-radius:6px;opacity:0;transition:opacity .1s;z-index:9}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="badge">Mockup · placeholder numbers, not real data</span>
+    <h1>What does your life look like?</h1>
+    <p>Pick a country, a year and an age. See the most likely version of that person's life — and how it differs from someone the same age a generation earlier.</p>
+  </header>
+
+  <section class="controls">
+    <div class="ctl"><label for="country">Country</label><select id="country"></select></div>
+    <div class="ctl"><label>Age</label><div class="seg" id="ages"></div></div>
+    <div class="ctl"><label for="year">Year</label>
+      <input type="range" id="year" min="1990" max="2025" value="2025" step="1"><span class="yearval" id="yearval"></span>
+    </div>
+  </section>
+
+  <div class="grid">
+    <aside class="card persona">
+      <h2>If you were…</h2>
+      <p class="headline" id="headline"></p>
+      <div class="sub" id="sub"></div>
+      <div class="dots" id="dots"></div>
+      <div class="dotcap" id="dotcap"></div>
+      <ul class="story" id="story"></ul>
+    </aside>
+
+    <main class="card">
+      <h2>Likelihood, out of 100 people</h2>
+      <div class="legend">
+        <span><i class="lg-bar"></i>Selected year</span>
+        <span><i class="lg-tick"></i><span id="lgcmp"></span></span>
+      </div>
+      <div id="rows"></div>
+
+      <div class="trend">
+        <h2 id="trendtitle"></h2>
+        <svg id="trend" viewBox="0 0 640 190" role="img" aria-label="Trend over time"></svg>
+      </div>
+    </main>
+  </div>
+
+  <p class="note">Sources to plug in later: UN World Population Prospects, WHO Global Health Observatory, Gallup World Poll, World Values Survey, Pew, CDC/NCHS, Eurostat. Cohort = survey year − age.</p>
+</div>
+<div id="tip"></div>
+
+<script>
+// ---------- placeholder data ----------
+// Each metric: [value for cohort born ~1960, value for cohort born ~2000] at "reference age 30", per country.
+const COUNTRIES = {
+  "United States": {married:[78,38], parent:[85,48], alcohol:[68,55], smoke:[28,11], sleep:[28,38], active:[40,50], religion:[62,36], parents:[8,18]},
+  "Mexico":        {married:[82,48], parent:[90,62], alcohol:[45,38], smoke:[22,12], sleep:[25,34], active:[30,42], religion:[85,64], parents:[22,38]},
+  "Germany":       {married:[80,34], parent:[82,40], alcohol:[78,66], smoke:[32,18], sleep:[26,36], active:[45,55], religion:[45,22], parents:[6,16]},
+  "Japan":         {married:[88,36], parent:[88,40], alcohol:[70,45], smoke:[34,14], sleep:[55,62], active:[35,40], religion:[30,18], parents:[15,32]},
+  "South Korea":   {married:[90,32], parent:[90,32], alcohol:[78,60], smoke:[30,16], sleep:[48,60], active:[28,38], religion:[52,28], parents:[14,38]},
+  "Nigeria":       {married:[88,66], parent:[93,76], alcohol:[22,14], smoke:[8,4],   sleep:[22,26], active:[55,58], religion:[96,92], parents:[18,26]}
+};
+const METRICS = [
+  {k:"married", name:"Married or partnered", group:"Family", ages:[.03,.08,.45,1],  say:v=>`${v} in 100 are married or in a long-term partnership`},
+  {k:"parent",  name:"Has a child",          group:"Family", ages:[.03,.09,.42,1],  say:v=>`${v} in 100 have at least one child`},
+  {k:"parents", name:"Lives with parents",   group:"Family", ages:[3.2,2.4,1.3,1],  say:v=>`${v} in 100 still live in their parents' home`},
+  {k:"alcohol", name:"Drank alcohol, past month", group:"Habits", ages:[.55,.85,1,1], say:v=>`${v} in 100 drank alcohol in the past month`},
+  {k:"smoke",   name:"Smokes",               group:"Habits", ages:[.55,.8,1,1],     say:v=>`${v} in 100 smoke regularly`},
+  {k:"sleep",   name:"Sleeps under 7 h",     group:"Health", ages:[1.3,1.2,1.05,1], say:v=>`${v} in 100 sleep less than 7 hours a night`},
+  {k:"active",  name:"Exercises weekly",     group:"Health", ages:[1.3,1.25,1.05,1],say:v=>`${v} in 100 exercise at least weekly`},
+  {k:"religion",name:"Religion is important",group:"Beliefs",ages:[.8,.85,.92,1],   say:v=>`${v} in 100 say religion is important to them`}
+];
+const AGES=[18,20,25,30];
+const CMP_GAP=30;   // compare with someone the same age 30 years earlier
+
+function val(country,m,age,year){
+  const cohort=Math.max(1960,Math.min(2000,year-age));
+  const t=(cohort-1960)/40, [a,b]=COUNTRIES[country][m.k];
+  const base=a+(b-a)*t;
+  const mult=m.ages[AGES.indexOf(age)];
+  return Math.round(Math.max(1,Math.min(97,base*mult)));
+}
+
+// ---------- state ----------
+const st={country:"United States",age:25,year:2025,metric:"married"};
+const $=id=>document.getElementById(id);
+const tip=$("tip");
+function showTip(e,t){tip.textContent=t;tip.style.opacity=1;tip.style.left=e.clientX+12+"px";tip.style.top=e.clientY+12+"px"}
+function hideTip(){tip.style.opacity=0}
+
+// ---------- controls ----------
+Object.keys(COUNTRIES).forEach(c=>{const o=document.createElement("option");o.textContent=c;$("country").appendChild(o)});
+AGES.forEach(a=>{const b=document.createElement("button");b.textContent=a;b.onclick=()=>{st.age=a;render()};b.dataset.age=a;$("ages").appendChild(b)});
+$("country").onchange=e=>{st.country=e.target.value;render()};
+$("year").oninput=e=>{st.year=+e.target.value;render()};
+
+// ---------- render ----------
+function render(){
+  const cur=METRICS.find(m=>m.k===st.metric);
+  $("yearval").textContent=st.year;
+  [...$("ages").children].forEach(b=>b.classList.toggle("on",+b.dataset.age===st.age));
+  const cmpYear=st.year-CMP_GAP;
+  $("lgcmp").textContent=`Same age in ${cmpYear}`;
+
+  // persona
+  const v=Object.fromEntries(METRICS.map(m=>[m.k,val(st.country,m,st.age,st.year)]));
+  const lead=(v.parent>=50)?"likely already a parent":(v.married>=50?"likely partnered, not yet a parent":(v.parents>=40?"likely still living at home":"likely independent and unmarried"));
+  $("headline").textContent=`A ${st.age}-year-old in ${st.country}, ${st.year}: ${lead}.`;
+  $("sub").textContent=`Born around ${st.year-st.age} · bars show the share of people like you who…`;
+
+  // dots
+  const d=$("dots");d.innerHTML="";
+  const n=v[st.metric];
+  for(let i=0;i<100;i++){const e=document.createElement("div");e.className="dot"+(i<n?" on":"");d.appendChild(e)}
+  $("dotcap").innerHTML=`<b>${n}</b> out of 100 — ${cur.name.toLowerCase()}`;
+  const pick=["married","parent","alcohol","active","sleep"];
+  $("story").innerHTML=pick.map(k=>`<li>${METRICS.find(m=>m.k===k).say(v[k])}</li>`).join("");
+
+  // rows
+  let html="",g="";
+  METRICS.forEach(m=>{
+    if(m.group!==g){g=m.group;html+=`<div class="group">${g}</div>`}
+    const a=val(st.country,m,st.age,st.year), b=val(st.country,m,st.age,cmpYear);
+    html+=`<div class="row${m.k===st.metric?" sel":""}" data-k="${m.k}" data-tip="${m.name}: ${a}% now vs ${b}% in ${cmpYear}">
+      <span class="name">${m.name}</span>
+      <span class="track"><span class="fill" style="width:${a}%"></span><span class="ghost" style="left:calc(${b}% - 1px)"></span></span>
+      <span class="val">${a}%</span></div>`;
+  });
+  $("rows").innerHTML=html;
+  document.querySelectorAll(".row").forEach(r=>{
+    r.onclick=()=>{st.metric=r.dataset.k;render()};
+    r.onmousemove=e=>showTip(e,r.dataset.tip);r.onmouseleave=hideTip;
+  });
+
+  drawTrend(cur);
+}
+
+function drawTrend(m){
+  $("trendtitle").textContent=`${m.name} · age ${st.age} · ${st.country}, 1990–2025`;
+  const W=640,H=190,L=36,R=16,T=14,B=26;
+  const ys=[],data=[];for(let y=1990;y<=2025;y++){ys.push(y);data.push(val(st.country,m,st.age,y))}
+  const max=Math.max(20,Math.ceil(Math.max(...data)/20)*20);
+  const x=y=>L+(y-1990)/35*(W-L-R), yy=v=>T+(1-v/max)*(H-T-B);
+  let s="";
+  for(let t=0;t<=max;t+=max/4){s+=`<line x1="${L}" x2="${W-R}" y1="${yy(t)}" y2="${yy(t)}" stroke="#eeede9"/><text x="${L-6}" y="${yy(t)+4}" font-size="11" fill="#8a8984" text-anchor="end">${t}%</text>`}
+  [1990,2000,2010,2020].forEach(y=>s+=`<text x="${x(y)}" y="${H-6}" font-size="11" fill="#8a8984" text-anchor="middle">${y}</text>`);
+  s+=`<path d="${data.map((v,i)=>(i?"L":"M")+x(ys[i])+" "+yy(v)).join(" ")}" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round"/>`;
+  const cv=data[st.year-1990];
+  s+=`<line x1="${x(st.year)}" x2="${x(st.year)}" y1="${T}" y2="${H-B}" stroke="#c9c8c2" stroke-dasharray="3 3"/>`;
+  s+=`<circle cx="${x(st.year)}" cy="${yy(cv)}" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>`;
+  s+=`<rect id="hit" x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent"/>`;
+  $("trend").innerHTML=s;
+  const svg=$("trend");
+  $("hit").onmousemove=e=>{
+    const r=svg.getBoundingClientRect(), px=(e.clientX-r.left)/r.width*W;
+    const y=Math.max(1990,Math.min(2025,Math.round(1990+(px-L)/(W-L-R)*35)));
+    showTip(e,`${y}: ${data[y-1990]}%`);
+  };
+  $("hit").onmouseleave=hideTip;
+  $("hit").onclick=e=>{const r=svg.getBoundingClientRect(),px=(e.clientX-r.left)/r.width*W;st.year=Math.max(1990,Math.min(2025,Math.round(1990+(px-L)/(W-L-R)*35)));$("year").value=st.year;render()};
+}
+render();
+</script>
+</body>
+</html>
