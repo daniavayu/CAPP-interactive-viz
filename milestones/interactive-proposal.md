@@ -6,7 +6,7 @@ Lately, I’ve been really interested in the idea that young people are changing
 
 I want to explore how significant these trends actually are, how widespread they are across different cultures and countries, and whether they represent broader generational changes or are specific to certain contexts. I’m also interested in conducting some form of cohort analysis, comparing groups of people born in different periods to better understand how behaviors and attitudes have changed over time and what factors might be driving these changes.
 
-Inspiration:
+Things I have read/listened to:
 1. https://open.spotify.com/episode/3911bUMgN0P9W5WEoUAM5v
 2. https://www.parents.com/why-teens-are-socializing-less-12024663
 3. https://www.cnbc.com/make-it/2024/08/16 why-more-americans-dont-want-kids.html
@@ -21,24 +21,17 @@ What I imagine is to find like three prototypes of 18, 20, 25, 30 year old in di
 
 ## Mockup
 
-{
-At least one image file with a mock-up of what you're considering.
-If multiple images help make the intent clear, please include more.
-This can be a quick pen & paper sketch of your current idea, or you can use Inkscape/any tool you wish.
-A rough sense of what will be shown and how the user will interact with it should be clear from your illustration(s).
-
+Inspiration:
 https://1in8b.life/en/
 
-I want to do. something like this but more than demographics variables, I want to show how your life/habits would potentially look like. I did a mockup using Claude to show how I imagine this looking. 
+I want to do. something like this but more than demographics variables, I want to show how your life/habits would potentially look like. I did a mockup using Claude to show how I imagine this idea looking. 
 
 ![Screenshot of the interactive mockup](mockup/mockup.jpg)
 
 [Open the interactive HTML mockup](mockup/mockup.html)
 
-}
-
 ## Data Sources
-My idea is to initially start with Chile which I know has the data I am looking for. I havent finishied exploring it because they are very big surveys but I have worked with both of them before and know that they have the variables I am looking for. 
+My idea is to initially start with Chile which I know has the data I am looking for. I have not finished exploring it because they are very big surveys but I have worked with both of them before and know that they have the variables I am looking for. 
 
 ### Data Source 1: CASEN
 
@@ -46,7 +39,7 @@ URL: https://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen
 
 Size: {Number of Rows} rows, {Number of Columns} columns
 
-The Encuesta de Caracterización Socioeconómica Nacional (CASEN) is a major national household survey in Chile used to measure poverty, income distribution, and living conditions
+The Encuesta de Caracterización Socioeconómica Nacional (CASEN) is a major national household survey in Chile used to measure poverty, income distribution, and living conditions.
 
 ### Data Source 2: INE
 
@@ -54,12 +47,12 @@ URL: https://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen
 
 Size: {Number of Rows} rows, {Number of Columns} columns
 
-The Instituto Nacional de Estadísticas (INE) is the state-run national statistical service of the Government of Chile
+The Instituto Nacional de Estadísticas (INE) is the state-run national statistical service of the Government of Chile.
 
 ## Questions
 
 {Numbered list of questions for course staff, if any.}
 
-1. Does it seem like too much? Should I maybe limit the variables/countries?
+1. Does it seem like too much? Should I maybe limit the variables/countries? Maybe it would make sense to just do it by regions in Chile and after that think about expanding to other countries since I think the data I want is very local (except for things like fertility rates or income)
 2. Do you think this is interesting?
 3. How else could I visualize this idea?
